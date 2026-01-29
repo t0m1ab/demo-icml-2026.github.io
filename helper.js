@@ -23,7 +23,6 @@ function generateExampleRow(table_row, base_dir, dirs, filename, col_offset) {
   }
 }
 
-
 function generateCVSS(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/cvss_c_test'
@@ -73,7 +72,6 @@ function generateVoxPopuli(tableId) {
     generateExampleRow(table.rows[1 + i], base_dir, dirs, filenames[i], 0);
   }
 }
-
 
 generateNTREX('ntrex-table');
 generateCVSS('cvss-table');
@@ -139,66 +137,6 @@ $(document).ready(function() {
                 barWidth: 2,
                 height: 55,
                 width: 700,
-            });
-            $(`#play-pause-${i}-${j}`).click(() => {
-                wavesurfer.playPause();
-            });
-          });
-        });
-    }
-    {
-        const columns = ['Real Human Interpretation', 'Hibiki', 'Seamless'];
-        const dirs = [
-            "data/voxpopuli/gt_with_fr_background",
-            "data/voxpopuli/hibiki_cfg=3_with_fr_background",
-            "data/voxpopuli/seamless_with_fr_background",
-        ];
-        const rows = [
-            "20090422-0900-PLENARY-3_20090422-09:53:50_7.wav",
-            "20090506-0900-PLENARY-12_20090506-17:43:49_4.wav",
-            "20090914-0900-PLENARY-15_20090914-20:43:54_7.wav",
-            "20090916-0900-PLENARY-4_20090916-10:55:02_12.wav",
-        ];
-        const table = $('#vis-table2');
-
-        // Add header
-        const thead = $('<thead>');
-        const headerRow = $('<tr>');
-        columns.forEach(header => {
-            headerRow.append($('<th style="text-align: center">').text(header));
-        });
-        thead.append(headerRow);
-        table.append(thead);
-
-        // Add rows
-        const tbody = $('<tbody>');
-        rows.forEach((file, i) => {
-          const row = $('<tr>');
-          dirs.forEach((d, j) => {
-            // Add waveform cell
-            const waveCell = $('<td style="text-align: center">');//.css('min-width', '200px');
-            const waveform = $('<div>').attr('id', `waveform2-${i}-${j}`);
-            waveCell.append(waveform);
-            const playPauseButton = `
-                <button class="btn btn-secondary" data-action="play" id="play-pause-${i}-${j}">
-                    <i class="bi bi-play-fill"></i> Play / <i class="bi bi-pause-fill"></i> Pause
-                </button>
-            `;
-            waveCell.append(playPauseButton);
-            row.append(waveCell);
-          });
-          tbody.append(row);
-        });
-        table.append(tbody);
-
-        // Create wavesurfer instances
-        rows.forEach((file, i) => {
-          dirs.forEach((dir, j) => {
-            const wavesurfer = WaveSurfer.create({
-                container: `#waveform2-${i}-${j}`,
-                url: dir + '/' + file,
-                barWidth: 2,
-                height: 55,
             });
             $(`#play-pause-${i}-${j}`).click(() => {
                 wavesurfer.playPause();
