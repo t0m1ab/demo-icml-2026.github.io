@@ -23,6 +23,8 @@
   </head>
 
   <body>
+
+    <!-- HEADER -->
     <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
       <div class="text-center">
         <h1>Simultaneous Speech-to-Speech Translation Without Aligned Data</h1>
@@ -39,7 +41,7 @@
         <b>Abstract.</b>
         Simultaneous speech translation requires translating source speech into a target language in real-time while handling non-monotonic word dependencies.
         Traditional approaches rely on supervised training with word-level aligned data, which is difficult to collect at scale and thus depends on synthetic alignments using language-specific heuristics that are suboptimal.
-        We propose Hibiki-Zero, which eliminates the need for word-level alignments entirely.
+        We propose <i>Hibiki-Zero</i>, which eliminates the need for word-level alignments entirely.
         This fundamentally simplifies the training pipeline and enables seamless scaling to diverse languages with varying grammatical structures, removing the bottleneck of designing language-specific alignment heuristics.
         We first train on sentence-level aligned data to learn speech translation at high latency, then apply a novel reinforcement learning strategy using GRPO to optimize latency while preserving translation quality.
         Hibiki-Zero achieves state-of-the-art performance in translation accuracy, latency, voice transfer, and naturalness across five X-to-English tasks.
@@ -47,5 +49,13 @@
         We provide examples as well as models and we release a benchmark containing 15h of multilingual data for speech translation evaluation.
       </p>
     </div>
+
+    <!-- TAIL -->
+    <div class="container p-5 mb-5 bg-white rounded">
+      <p class="mb-0">
+        This page was adapted from the <a href="https://google-research.github.io/seanet/soundstorm/examples">SoundStorm project page</a>.
+      </p>
+    </div>
+    
   </body>
 </html>
