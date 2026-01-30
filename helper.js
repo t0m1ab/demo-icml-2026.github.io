@@ -4,22 +4,37 @@ function createAudioHTML(path) {
       ' type="audio/wav">Your browser does not support the audio element.</audio>';
 }
 
-function generateExampleRow(table_row, base_dir, lang, dirs, filename, col_offset) {
+function generateExampleRow(table_row, base_dir, lang, dirs, filename) {
   const langFlags = {'fr': '🇫🇷', 'es': '🇪🇸', 'pt': '🇵🇹', 'de': '🇩🇪'};
-  for (var i = 0; i < dirs.length; i++) {
-    let cell = table_row.cells[col_offset + i];
-    let p = base_dir + '/' + lang + '/' + dirs[i] + '/' + filename;
 
-    if (i === 0) {
-      const flag = langFlags[lang] || '';
-      cell.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <strong style="white-space: nowrap;">
-            <span style="font-size: 2em; line-height: 1;">${flag}</span>
-          </strong>
-        </div>
-      `;
-    }
+  // Put the flag in the first column
+  table_row.cells[0].innerHTML = `
+    <div style="display: flex; align-items: center; justify-content: center; font-size: 2em;">
+      ${langFlags[lang] || ''}
+    </div>
+  `;
+
+  let col_offset = 1;
+
+  for (var col_idx = 0; col_idx < dirs.length; col_idx++) {
+
+    console.log("col_idx:", col_idx);
+    console.log("Cells in this row:", table_row.cells);
+    console.log("Number of cells:", table_row.cells.length);
+
+    let cell = table_row.cells[col_idx + col_offset];
+    let p = base_dir + '/' + lang + '/' + dirs[col_idx] + '/' + filename;
+
+    // if (col_idx === 0) {
+    //   const flag = langFlags[lang] || '';
+    //   cell.innerHTML = `
+    //     <div style="display: flex; align-items: center; gap: 8px;">
+    //       <strong style="white-space: nowrap;">
+    //         <span style="font-size: 2em; line-height: 1;">${flag}</span>
+    //       </strong>
+    //     </div>
+    //   `;
+    // }
     let container = cell.querySelector('div') || cell;
 
     if (p.endsWith('txt')) {
@@ -41,13 +56,13 @@ function generateShortFormTable(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/audio_ntrex_4L'
   let langs = ['fr', 'es', 'pt', 'de'];
-  let n_files_per_lang = 4;
   let fnames_per_lang = {
-    'fr': ["30ef344ae8687926.mp3", "4539f03d07ce7fbf.mp3", "6d6261093edc78c2.mp3", "6d6261093edc78c2.mp3"],
-    'es': ["5dc1d533e21f43b2.mp3", "963de6cbb0eaee36.mp3", "a22a3eff8576211c.mp3", "ff65061e3b636834.mp3"],
-    'pt': ["1263b98457966b2a.mp3", "3a2a8fd3a3bd2feb.mp3", "6cf8e09e87612d2f.mp3", "70a4955ff0149f5f.mp3"],
-    'de': ["2d05ea9d4a065778.mp3", "3f5d622c2955df4c.mp3", "64fbd8fd8ecd4d63.mp3", "93cce2bd8093062f.mp3"],
+    'fr': ["30ef344ae8687926.mp3", "4539f03d07ce7fbf.mp3"],  // "6d6261093edc78c2.mp3", "6d6261093edc78c2.mp3"],
+    'es': ["5dc1d533e21f43b2.mp3", "963de6cbb0eaee36.mp3"],  // "a22a3eff8576211c.mp3", "ff65061e3b636834.mp3"],
+    'pt': ["1263b98457966b2a.mp3", "3a2a8fd3a3bd2feb.mp3"],  // "6cf8e09e87612d2f.mp3", "70a4955ff0149f5f.mp3"],
+    'de': ["2d05ea9d4a065778.mp3", "3f5d622c2955df4c.mp3"],  // "64fbd8fd8ecd4d63.mp3", "93cce2bd8093062f.mp3"],
   };
+  let n_files_per_lang = fnames_per_lang.fr.length;
   let dirs = ['source', 'hibiki-zero', 'seamless'];
 
   for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
@@ -55,7 +70,7 @@ function generateShortFormTable(tableId) {
     let fnames = fnames_per_lang[lang];
     for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
       let row_idx = n_files_per_lang * lang_idx + sample_idx + 1
-      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx], 0);
+      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx]);
     }
   }
 }
@@ -64,13 +79,13 @@ function generateLongFormTable(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/audio_ntrex_4L'
   let langs = ['fr', 'es', 'pt', 'de'];
-  let n_files_per_lang = 2;
   let fnames_per_lang = {
     'fr': ["ee67adf3f3768b1d_11labs.mp3", "f9fcfb48c566cfad_11labs.mp3"],
     'es': ["02fc8ce1843e4638_11labs.mp3", "bb3e91e3f0488a24_11labs.mp3"],
     'pt': ["73725fb3cf2cf669_cartesia.mp3 ", "7b42a118f93b1867_cartesia.mp3"],
     'de': ["02df47e0d27a8b80_cartesia.mp3", "b0e7b4b91e9d91db_gradium.mp3"],
   };
+  let n_files_per_lang = fnames_per_lang.fr.length;
   let dirs = ['source', 'hibiki-zero', 'seamless'];
 
   for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
@@ -78,7 +93,7 @@ function generateLongFormTable(tableId) {
     let fnames = fnames_per_lang[lang];
     for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
       let row_idx = n_files_per_lang * lang_idx + sample_idx + 1
-      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx], 0);
+      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx]);
     }
   }
 }
