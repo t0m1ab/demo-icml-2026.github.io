@@ -4,10 +4,10 @@ function createAudioHTML(path) {
       ' type="audio/wav">Your browser does not support the audio element.</audio>';
 }
 
-function generateExampleRow(table_row, base_dir, dirs, filename, col_offset) {
+function generateExampleRow(table_row, base_dir, lang, dirs, filename, col_offset) {
   for (var i = 0; i < dirs.length; i++) {
     let cell = table_row.cells[col_offset + i];
-    let p = base_dir + '/' + dirs[i] + '/' + filename;
+    let p = base_dir + '/' + lang + '/' + dirs[i] + '/' + filename;
       if (p.endsWith('txt')) {
         var req = new XMLHttpRequest();
         req.onreadystatechange = function() {
@@ -40,20 +40,19 @@ function generateCVSS(tableId) {
   }
 }
 
-function generateNTREX(tableId) {
+function generateLongFormTable(tableId) {
   let table = document.getElementById(tableId);
-  let base_dir = 'data/audio_ntrex_long'
-  let dirs = ['source', 'hibiki', 'seamless'];
-  let filenames = [
-    "10887_ea80c8e6-883d-4afe-841b-598ce7db3779.wav",
-    "3120_a63eabfc-d5aa-4353-84d0-9c5c068a1b38.wav",
-    "5196_ea80c8e6-883d-4afe-841b-598ce7db3779.wav",
-    "6855_f3c3ea82-42ef-4c09-b4aa-544a4c95518b.wav",
-    "9605_83f1360e-7775-4d36-89f6-60649041c935.wav"
+  let base_dir = 'data/audio_ntrex_4L'
+  // let langs = ['fr', 'es', 'pt', 'de'];
+  let dirs = ['source', 'hibiki-zero', 'seamless'];
+  let fr_fnames = [
+    "ee67adf3f3768b1d_11labs.wav",
+    "f9fcfb48c566cfad_11labs.wav",
   ];
 
-  for (var i = 0; i < filenames.length; i++) {
-    generateExampleRow(table.rows[1 + i], base_dir, dirs, filenames[i], 0);
+  // fr
+  for (var sample_idx = 0; sample_idx < fr_fnames.length; sample_idx++) {
+    generateExampleRow(table.rows[1 + i], base_dir, "fr", dirs, fr_fnames[sample_idx], 0);
   }
 }
 
@@ -73,80 +72,11 @@ function generateVoxPopuli(tableId) {
   }
 }
 
-// generateNTREX('ntrex-table');
+generateLongFormTable('longform-table');
 // generateCVSS('cvss-table');
 // generateVoxPopuli('voxpopuli-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
-// $(document).ready(function() {
-//     {
-//         const columns = ['Hibiki-Zero', 'Seamless'];
-//         const rows = [
-//             ['data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav', 'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'],
-//             ['data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav', 'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'],
-//             ['data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav', 'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'],
-//             ['data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav', 'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'],
-//         ];
-//         const table = $('#vis-table');
-
-//         // Add header
-//         const thead = $('<thead>');
-//         const headerRow = $('<tr>');
-//         columns.forEach(header => {
-//             headerRow.append($('<th style="text-align: center">').text(header));
-//         });
-//         thead.append(headerRow);
-//         table.append(thead);
-
-//         // Add rows
-//         const tbody = $('<tbody>');
-//         rows.forEach((files, i) => {
-//           const row = $('<tr>');
-//           files.forEach((files, j) => {
-//             // Add waveform cell
-//             const waveCell = $('<td style="text-align: center">');//.css('min-width', '200px');
-//             const waveform = $('<div>').attr('id', `waveform-${i}-${j}`);
-//             waveCell.append(waveform);
-//             const playPauseButton = `
-//                 <button class="btn btn-secondary" data-action="play" id="play-pause-${i}-${j}">
-//                     <i class="bi bi-play-fill"></i> Play / <i class="bi bi-pause-fill"></i> Pause
-//                 </button>
-//             `;
-//             waveCell.append(playPauseButton);
-//             row.append(waveCell);
-//           });
-//           tbody.append(row);
-//         });
-//         table.append(tbody);
-
-//         // Create wavesurfer instances
-//         rows.forEach((files, i) => {
-//           files.forEach((file, j) => {
-//             const wavesurfer = WaveSurfer.create({
-//                 container: `#waveform-${i}-${j}`,
-//                 url: file,
-//                 splitChannels: [
-//                     {
-//                         waveColor: '#2E7D9E',
-//                         progressColor: '#173E4E',
-//                     },
-//                     {
-//                         waveColor: '#E57872',
-//                         progressColor: '#2A0908',
-//                     }
-//                 ],
-//                 barWidth: 2,
-//                 height: 55,
-//                 width: 700,
-//             });
-//             $(`#play-pause-${i}-${j}`).click(() => {
-//                 wavesurfer.playPause();
-//             });
-//           });
-//         });
-//     }
-// });
-
 $(document).ready(function () {
 
     const columns = ['Hibiki-Zero', 'Seamless'];
@@ -172,7 +102,7 @@ $(document).ready(function () {
         ],
     ];
 
-    const table = $('#vis-table');
+    const table = $('#multistream-table');
 
     /* ---------- Header ---------- */
     const thead = $('<thead>');
