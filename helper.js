@@ -20,7 +20,6 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename, row_idx, 
     table_row.cells[0].style.verticalAlign = "middle";
     // Remove the first cell from the next row because of row span
     let nextRow = table_row.parentElement.rows[row_idx + 1];
-    console.log("nextRow.length", nextRow)
     if (nextRow) {
       nextRow.deleteCell(0);
     }
