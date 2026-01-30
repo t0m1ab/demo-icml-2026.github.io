@@ -84,7 +84,7 @@ $(document).ready(function() {
         const rows = [
             ['data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav', 'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'],
             ['data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav', 'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'],
-            ['data-stereo/hibiki3.wav', 'data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav', 'seamless_pt_4bb12dfdfd3877d8_11labs.wav'],
+            ['data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav', 'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'],
             ['data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav', 'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'],
         ];
         const table = $('#vis-table');
