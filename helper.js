@@ -23,27 +23,6 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename, col_offse
   }
 }
 
-function generateShortFormTable(tableId) {
-  let table = document.getElementById(tableId);
-  let base_dir = 'data/audio_ntrex_4L'
-  let langs = ['fr', 'es', 'pt', 'de'];
-  let fnames_per_lang = {
-    'fr': ["ee67adf3f3768b1d_11labs.wav", "f9fcfb48c566cfad_11labs.wav"],
-    'es': ["02fc8ce1843e4638_11labs.wav", "bb3e91e3f0488a24_11labs.wav"],
-    'pt': ["73725fb3cf2cf669_cartesia.wav ", "7b42a118f93b1867_cartesia.wav"],
-    'de': ["02df47e0d27a8b80_cartesia.wav", "b0e7b4b91e9d91db_gradium.wav"],
-  };
-  let dirs = ['source', 'hibiki-zero', 'seamless'];
-
-  for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
-    let lang = langs[lang_idx];
-    let fnames = fnames_per_lang[lang];
-    for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
-      generateExampleRow(table.rows[1 + i], base_dir, lang, dirs, fnames[sample_idx], 0);
-    }
-  }
-}
-
 function generateLongFormTable(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/audio_ntrex_4L'
@@ -67,8 +46,8 @@ function generateLongFormTable(tableId) {
   }
 }
 
-generateLongFormTable('longform-table');
 // generateShortFormTable('shortform-table');
+generateLongFormTable('longform-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
 $(document).ready(function () {
