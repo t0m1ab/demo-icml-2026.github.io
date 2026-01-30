@@ -78,50 +78,155 @@ function generateVoxPopuli(tableId) {
 // generateVoxPopuli('voxpopuli-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
-$(document).ready(function() {
-    {
-        const columns = ['Hibiki-Zero', 'Seamless'];
-        const rows = [
-            ['data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav', 'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'],
-            ['data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav', 'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'],
-            ['data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav', 'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'],
-            ['data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav', 'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'],
-        ];
-        const table = $('#vis-table');
+// $(document).ready(function() {
+//     {
+//         const columns = ['Hibiki-Zero', 'Seamless'];
+//         const rows = [
+//             ['data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav', 'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'],
+//             ['data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav', 'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'],
+//             ['data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav', 'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'],
+//             ['data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav', 'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'],
+//         ];
+//         const table = $('#vis-table');
 
-        // Add header
-        const thead = $('<thead>');
-        const headerRow = $('<tr>');
-        columns.forEach(header => {
-            headerRow.append($('<th style="text-align: center">').text(header));
-        });
-        thead.append(headerRow);
-        table.append(thead);
+//         // Add header
+//         const thead = $('<thead>');
+//         const headerRow = $('<tr>');
+//         columns.forEach(header => {
+//             headerRow.append($('<th style="text-align: center">').text(header));
+//         });
+//         thead.append(headerRow);
+//         table.append(thead);
 
-        // Add rows
-        const tbody = $('<tbody>');
-        rows.forEach((files, i) => {
-          const row = $('<tr>');
-          files.forEach((files, j) => {
-            // Add waveform cell
-            const waveCell = $('<td style="text-align: center">');//.css('min-width', '200px');
+//         // Add rows
+//         const tbody = $('<tbody>');
+//         rows.forEach((files, i) => {
+//           const row = $('<tr>');
+//           files.forEach((files, j) => {
+//             // Add waveform cell
+//             const waveCell = $('<td style="text-align: center">');//.css('min-width', '200px');
+//             const waveform = $('<div>').attr('id', `waveform-${i}-${j}`);
+//             waveCell.append(waveform);
+//             const playPauseButton = `
+//                 <button class="btn btn-secondary" data-action="play" id="play-pause-${i}-${j}">
+//                     <i class="bi bi-play-fill"></i> Play / <i class="bi bi-pause-fill"></i> Pause
+//                 </button>
+//             `;
+//             waveCell.append(playPauseButton);
+//             row.append(waveCell);
+//           });
+//           tbody.append(row);
+//         });
+//         table.append(tbody);
+
+//         // Create wavesurfer instances
+//         rows.forEach((files, i) => {
+//           files.forEach((file, j) => {
+//             const wavesurfer = WaveSurfer.create({
+//                 container: `#waveform-${i}-${j}`,
+//                 url: file,
+//                 splitChannels: [
+//                     {
+//                         waveColor: '#2E7D9E',
+//                         progressColor: '#173E4E',
+//                     },
+//                     {
+//                         waveColor: '#E57872',
+//                         progressColor: '#2A0908',
+//                     }
+//                 ],
+//                 barWidth: 2,
+//                 height: 55,
+//                 width: 700,
+//             });
+//             $(`#play-pause-${i}-${j}`).click(() => {
+//                 wavesurfer.playPause();
+//             });
+//           });
+//         });
+//     }
+// });
+
+$(document).ready(function () {
+
+    const columns = ['Hibiki-Zero', 'Seamless'];
+
+    const rowLabels = ['French 🇫🇷', 'Spanish 🇪🇸', 'Portuguese 🇵🇹', 'German 🇩🇪'];
+
+    const rows = [
+        [
+            'data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav',
+            'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'
+        ],
+        [
+            'data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav',
+            'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'
+        ],
+        [
+            'data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav',
+            'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'
+        ],
+        [
+            'data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav',
+            'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'
+        ],
+    ];
+
+    const table = $('#vis-table');
+
+    /* ---------- Header ---------- */
+    const thead = $('<thead>');
+    const headerRow = $('<tr>');
+
+    headerRow.append($('<th>').text('Source language'));
+
+    columns.forEach(header => {
+        headerRow.append(
+            $('<th style="text-align: center">').text(header)
+        );
+    });
+
+    thead.append(headerRow);
+    table.append(thead);
+
+    /* ---------- Body ---------- */
+    const tbody = $('<tbody>');
+
+    rows.forEach((files, i) => {
+        const row = $('<tr>');
+
+        // Language label cell
+        row.append(
+            $('<td>')
+                .css('font-weight', 'bold')
+                .css('white-space', 'nowrap')
+                .css('vertical-align', 'middle')
+                .text(rowLabels[i])
+        );
+
+        files.forEach((file, j) => {
+            const waveCell = $('<td style="text-align: center">');
             const waveform = $('<div>').attr('id', `waveform-${i}-${j}`);
             waveCell.append(waveform);
+
             const playPauseButton = `
-                <button class="btn btn-secondary" data-action="play" id="play-pause-${i}-${j}">
-                    <i class="bi bi-play-fill"></i> Play / <i class="bi bi-pause-fill"></i> Pause
+                <button class="btn btn-secondary mt-1" id="play-pause-${i}-${j}">
+                    <i class="bi bi-play-fill"></i> Play /
+                    <i class="bi bi-pause-fill"></i> Pause
                 </button>
             `;
             waveCell.append(playPauseButton);
             row.append(waveCell);
-          });
-          tbody.append(row);
         });
-        table.append(tbody);
 
-        // Create wavesurfer instances
-        rows.forEach((files, i) => {
-          files.forEach((file, j) => {
+        tbody.append(row);
+    });
+
+    table.append(tbody);
+
+    /* ---------- WaveSurfer ---------- */
+    rows.forEach((files, i) => {
+        files.forEach((file, j) => {
             const wavesurfer = WaveSurfer.create({
                 container: `#waveform-${i}-${j}`,
                 url: file,
@@ -139,10 +244,11 @@ $(document).ready(function() {
                 height: 55,
                 width: 700,
             });
+
             $(`#play-pause-${i}-${j}`).click(() => {
                 wavesurfer.playPause();
             });
-          });
         });
-    }
+    });
+
 });
