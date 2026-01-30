@@ -178,7 +178,7 @@ $(document).ready(function () {
     const thead = $('<thead>');
     const headerRow = $('<tr>');
 
-    headerRow.append($('<th>').text('Source language')).css('min-width', '160px');
+    headerRow.append($('<th>').text('Source language')).css({'white-space': 'nowrap'});
 
     columns.forEach(header => {
         headerRow.append(
