@@ -217,7 +217,8 @@ $(document).ready(function () {
                 ],
                 barWidth: 2,
                 height: 55,
-                width: 700,
+                width: 670,
+                normalize: true,
             });
 
             $(`#play-pause-${i}-${j}`).click(() => {
