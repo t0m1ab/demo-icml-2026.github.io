@@ -151,7 +151,7 @@ $(document).ready(function () {
 
     const columns = ['Hibiki-Zero', 'Seamless'];
 
-    const rowLabels = ['French 🇫🇷', 'Spanish 🇪🇸', 'Portuguese 🇵🇹', 'German 🇩🇪'];
+    const rowLabels = ['French', 'Spanish', 'Portuguese', 'German'];
 
     const rows = [
         [
@@ -178,7 +178,7 @@ $(document).ready(function () {
     const thead = $('<thead>');
     const headerRow = $('<tr>');
 
-    headerRow.append($('<th>').text('Source language'));
+    headerRow.append($('<th>').text('Source language')).css('min-width', '160px');
 
     columns.forEach(header => {
         headerRow.append(
