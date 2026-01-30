@@ -43,16 +43,20 @@ function generateCVSS(tableId) {
 function generateLongFormTable(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/audio_ntrex_4L'
-  // let langs = ['fr', 'es', 'pt', 'de'];
+  let langs = ['fr', 'es', 'pt', 'de'];
+  let fnmes_per_lang = {
+    'fr': ["ee67adf3f3768b1d_11labs.wav", "f9fcfb48c566cfad_11labs.wav"],
+    'es': ["02fc8ce1843e4638_11labs.wav", "bb3e91e3f0488a24_11labs.wav"],
+    'pt': ["73725fb3cf2cf669_cartesia.wav ", "7b42a118f93b1867_cartesia.wav"],
+    'de': ["02df47e0d27a8b80_cartesia.wav", "b0e7b4b91e9d91db_gradium.wav"],
+  };
   let dirs = ['source', 'hibiki-zero', 'seamless'];
-  let fr_fnames = [
-    "ee67adf3f3768b1d_11labs.wav",
-    "f9fcfb48c566cfad_11labs.wav",
-  ];
 
-  // fr
-  for (var sample_idx = 0; sample_idx < fr_fnames.length; sample_idx++) {
-    generateExampleRow(table.rows[1 + i], base_dir, "fr", dirs, fr_fnames[sample_idx], 0);
+  for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
+    let lang = langs[lang_idx];
+    for (var sample_idx = 0; sample_idx < fnmes_per_lang[lang].length; sample_idx++) {
+      generateExampleRow(table.rows[1 + i], base_dir, lang, dirs, fr_fnames[sample_idx], 0);
+    }
   }
 }
 
