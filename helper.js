@@ -58,7 +58,7 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename, row_idx, 
 
 function generateShortFormTable(tableId) {
   let tbody = document.getElementById(tableId).querySelector('tbody');
-  let base_dir = 'data/audio_ntrex_4L'
+  let base_dir = 'data/europarl_st'
   let langs = ['fr', 'es', 'pt', 'de'];
   let fnames_per_lang = {
     'fr': ["30ef344ae8687926.mp3", "4539f03d07ce7fbf.mp3"],  // "6d6261093edc78c2.mp3", "6d6261093edc78c2.mp3"],
@@ -68,7 +68,6 @@ function generateShortFormTable(tableId) {
   };
   let n_files_per_lang = fnames_per_lang.fr.length;
   let dirs = ['source', 'hibiki-zero', 'seamless'];
-
   for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
     let lang = langs[lang_idx];
     let fnames = fnames_per_lang[lang];
@@ -91,7 +90,6 @@ function generateLongFormTable(tableId) {
   };
   let n_files_per_lang = fnames_per_lang.fr.length;
   let dirs = ['source', 'hibiki-zero', 'seamless'];
-
   for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
     let lang = langs[lang_idx];
     let fnames = fnames_per_lang[lang];
