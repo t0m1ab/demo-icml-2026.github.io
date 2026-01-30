@@ -232,17 +232,17 @@ $(document).ready(function () {
                 url: file,
                 splitChannels: [
                     {
-                        waveColor: '#2E7D9E',
-                        progressColor: '#173E4E',
+                        waveColor: '#39f2aeff',
+                        progressColor: '#000000',
                     },
                     {
-                        waveColor: '#E57872',
+                        waveColor: '#ffab40ff',
                         progressColor: '#2A0908',
                     }
                 ],
                 barWidth: 2,
                 height: 55,
-                width: 700,
+                width: 500,
             });
 
             $(`#play-pause-${i}-${j}`).click(() => {
