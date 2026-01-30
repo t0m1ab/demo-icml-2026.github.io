@@ -75,7 +75,7 @@ function generateVoxPopuli(tableId) {
 
 generateNTREX('ntrex-table');
 generateCVSS('cvss-table');
-generateVoxPopuli('voxpopuli-table');
+// generateVoxPopuli('voxpopuli-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
 $(document).ready(function() {
