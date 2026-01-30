@@ -205,11 +205,11 @@ $(document).ready(function () {
                 splitChannels: [
                     {
                         waveColor: '#39f2aeff',
-                        progressColor: '#000000',
+                        progressColor: '#808080',
                     },
                     {
                         waveColor: '#ffab40ff',
-                        progressColor: '#808080',
+                        progressColor: '#000000',
                     }
                 ],
                 barWidth: 2,
