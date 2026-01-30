@@ -5,34 +5,48 @@ function createAudioHTML(path) {
 }
 
 function generateExampleRow(table_row, base_dir, lang, dirs, filename, col_offset) {
+  const langFlags = {'fr': '🇫🇷', 'es': '🇪🇸', 'pt': '🇵🇹', 'de': '🇩🇪'};
   for (var i = 0; i < dirs.length; i++) {
     let cell = table_row.cells[col_offset + i];
     let p = base_dir + '/' + lang + '/' + dirs[i] + '/' + filename;
-      if (p.endsWith('txt')) {
-        var req = new XMLHttpRequest();
-        req.onreadystatechange = function() {
-          if (this.readyState === this.DONE) {
-            cell.innerHTML = '<font size="-1">' + req.responseText + '</font>';
-          }
-        };
-        req.open('GET', p);
-        req.send(null);
-      } else {
-        cell.innerHTML = cell.innerHTML + createAudioHTML(p);
-      }
+
+    if (i === 0) {
+      const flag = langFlags[lang] || '';
+      cell.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <strong style="white-space: nowrap;">
+            <span style="font-size: 2em; line-height: 1;">${flag}</span>
+          </strong>
+        </div>
+      `;
+    }
+    let container = cell.querySelector('div') || cell;
+
+    if (p.endsWith('txt')) {
+      var req = new XMLHttpRequest();
+      req.onreadystatechange = function() {
+        if (this.readyState === this.DONE) {
+          container.innerHTML += '<font size="-1">' + req.responseText + '</font>';
+        }
+      };
+      req.open('GET', p);
+      req.send(null);
+    } else {
+      container.innerHTML += createAudioHTML(p);
+    }
   }
 }
 
-function generateLongFormTable(tableId) {
+function generateShortFormTable(tableId) {
   let table = document.getElementById(tableId);
   let base_dir = 'data/audio_ntrex_4L'
   let langs = ['fr', 'es', 'pt', 'de'];
-  let n_files_per_lang = 2;
+  let n_files_per_lang = 4;
   let fnames_per_lang = {
-    'fr': ["ee67adf3f3768b1d_11labs.wav", "f9fcfb48c566cfad_11labs.wav"],
-    'es': ["02fc8ce1843e4638_11labs.wav", "bb3e91e3f0488a24_11labs.wav"],
-    'pt': ["73725fb3cf2cf669_cartesia.wav ", "7b42a118f93b1867_cartesia.wav"],
-    'de': ["02df47e0d27a8b80_cartesia.wav", "b0e7b4b91e9d91db_gradium.wav"],
+    'fr': ["30ef344ae8687926.mp3", "4539f03d07ce7fbf.mp3", "6d6261093edc78c2.mp3", "6d6261093edc78c2.mp3"],
+    'es': ["5dc1d533e21f43b2.mp3", "963de6cbb0eaee36.mp3", "a22a3eff8576211c.mp3", "ff65061e3b636834.mp3"],
+    'pt': ["1263b98457966b2a.mp3", "3a2a8fd3a3bd2feb.mp3", "6cf8e09e87612d2f.mp3", "70a4955ff0149f5f.mp3"],
+    'de': ["2d05ea9d4a065778.mp3", "3f5d622c2955df4c.mp3", "64fbd8fd8ecd4d63.mp3", "93cce2bd8093062f.mp3"],
   };
   let dirs = ['source', 'hibiki-zero', 'seamless'];
 
@@ -46,7 +60,30 @@ function generateLongFormTable(tableId) {
   }
 }
 
-// generateShortFormTable('shortform-table');
+function generateLongFormTable(tableId) {
+  let table = document.getElementById(tableId);
+  let base_dir = 'data/audio_ntrex_4L'
+  let langs = ['fr', 'es', 'pt', 'de'];
+  let n_files_per_lang = 2;
+  let fnames_per_lang = {
+    'fr': ["ee67adf3f3768b1d_11labs.mp3", "f9fcfb48c566cfad_11labs.mp3"],
+    'es': ["02fc8ce1843e4638_11labs.mp3", "bb3e91e3f0488a24_11labs.mp3"],
+    'pt': ["73725fb3cf2cf669_cartesia.mp3 ", "7b42a118f93b1867_cartesia.mp3"],
+    'de': ["02df47e0d27a8b80_cartesia.mp3", "b0e7b4b91e9d91db_gradium.mp3"],
+  };
+  let dirs = ['source', 'hibiki-zero', 'seamless'];
+
+  for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
+    let lang = langs[lang_idx];
+    let fnames = fnames_per_lang[lang];
+    for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
+      let row_idx = n_files_per_lang * lang_idx + sample_idx + 1
+      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx], 0);
+    }
+  }
+}
+
+generateShortFormTable('shortform-table');
 generateLongFormTable('longform-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
@@ -54,24 +91,32 @@ $(document).ready(function () {
 
     const columns = ['Hibiki-Zero', 'Seamless'];
 
+    // Map language names to flags
+    const langFlags = {
+        'French': '🇫🇷',
+        'Spanish': '🇪🇸',
+        'Portuguese': '🇵🇹',
+        'German': '🇩🇪'
+    };
+
     const rowLabels = ['French', 'Spanish', 'Portuguese', 'German'];
 
     const rows = [
         [
-            'data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.wav',
-            'data-stereo/seamless_fr_3963c038b9f8d311_gradium.wav'
+            'data-stereo/hibiki-zero_fr_3963c038b9f8d311_gradium.mp3',
+            'data-stereo/seamless_fr_3963c038b9f8d311_gradium.mp3'
         ],
         [
-            'data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.wav',
-            'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.wav'
+            'data-stereo/hibiki-zero_es_949ebe18ff5f86ec_cartesia.mp3',
+            'data-stereo/seamless_es_949ebe18ff5f86ec_cartesia.mp3'
         ],
         [
-            'data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.wav',
-            'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.wav'
+            'data-stereo/hibiki-zero_pt_4bb12dfdfd3877d8_11labs.mp3',
+            'data-stereo/seamless_pt_4bb12dfdfd3877d8_11labs.mp3'
         ],
         [
-            'data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.wav',
-            'data-stereo/seamless_de_3bf4c877f039e01a_11labs.wav'
+            'data-stereo/hibiki-zero_de_3bf4c877f039e01a_11labs.mp3',
+            'data-stereo/seamless_de_3bf4c877f039e01a_11labs.mp3'
         ],
     ];
 
@@ -81,12 +126,10 @@ $(document).ready(function () {
     const thead = $('<thead>');
     const headerRow = $('<tr>');
 
-    headerRow.append($('<th>').text('Source language')).css({'white-space': 'nowrap'});
+    headerRow.append($('<th>').text('Source language').css({'white-space': 'nowrap'}));
 
     columns.forEach(header => {
-        headerRow.append(
-            $('<th style="text-align: center">').text(header)
-        );
+        headerRow.append($('<th style="text-align: center">').text(header));
     });
 
     thead.append(headerRow);
@@ -98,17 +141,21 @@ $(document).ready(function () {
     rows.forEach((files, i) => {
         const row = $('<tr>');
 
-        // Language label cell
+        // Language label cell with big flag
+        const langName = rowLabels[i];
+        const flag = langFlags[langName] || '';
         row.append(
             $('<td>')
-                .css('font-weight', 'bold')
-                .css('white-space', 'nowrap')
-                .css('vertical-align', 'middle')
-                .text(rowLabels[i])
+                .css({
+                    'font-weight': 'bold',
+                    'white-space': 'nowrap',
+                    'vertical-align': 'middle'
+                })
+                .html(`<span style="font-size: 4em; line-height:1;">${flag}</span>`)
         );
 
         files.forEach((file, j) => {
-            const waveCell = $('<td style="text-align: center">');
+            const waveCell = $('<td style="text-align: center; vertical-align: middle;">');
             const waveform = $('<div>').attr('id', `waveform-${i}-${j}`);
             waveCell.append(waveform);
 
