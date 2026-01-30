@@ -23,20 +23,23 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename, col_offse
   }
 }
 
-function generateCVSS(tableId) {
+function generateShortFormTable(tableId) {
   let table = document.getElementById(tableId);
-  let base_dir = 'data/cvss_c_test'
-  let dirs = ['source', 'hibiki', 'seamless'];
-  let filenames = [
-    "cvss-fr2en-test-idx14345-20007437.wav",
-    "cvss-fr2en-test-idx14410-20011543.wav",
-    "cvss-fr2en-test-idx14603-20030929.wav",
-    "cvss-fr2en-test-idx14695-20041791.wav",
-    "cvss-fr2en-test-idx4562-19004869.wav",
-  ];
+  let base_dir = 'data/audio_ntrex_4L'
+  let langs = ['fr', 'es', 'pt', 'de'];
+  let fnmes_per_lang = {
+    // 'fr': ["ee67adf3f3768b1d_11labs.wav", "f9fcfb48c566cfad_11labs.wav"],
+    // 'es': ["02fc8ce1843e4638_11labs.wav", "bb3e91e3f0488a24_11labs.wav"],
+    // 'pt': ["73725fb3cf2cf669_cartesia.wav ", "7b42a118f93b1867_cartesia.wav"],
+    // 'de': ["02df47e0d27a8b80_cartesia.wav", "b0e7b4b91e9d91db_gradium.wav"],
+  };
+  let dirs = ['source', 'hibiki-zero', 'seamless'];
 
-  for (var i = 0; i < filenames.length; i++) {
-    generateExampleRow(table.rows[1 + i], base_dir, dirs, filenames[i], 0);
+  for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
+    let lang = langs[lang_idx];
+    for (var sample_idx = 0; sample_idx < fnmes_per_lang[lang].length; sample_idx++) {
+      generateExampleRow(table.rows[1 + i], base_dir, lang, dirs, fr_fnames[sample_idx], 0);
+    }
   }
 }
 
@@ -60,25 +63,8 @@ function generateLongFormTable(tableId) {
   }
 }
 
-function generateVoxPopuli(tableId) {
-  let table = document.getElementById(tableId);
-  let base_dir = 'data/voxpopuli'
-  let dirs = ['source', 'hibiki_cfg=1', 'hibiki_cfg=3', 'hibiki_cfg=10', 'seamless'];
-  let filenames = [
-    "20090422-0900-PLENARY-3_20090422-09:53:50_7.wav",
-    "20090506-0900-PLENARY-12_20090506-17:43:49_4.wav",
-    "20090914-0900-PLENARY-15_20090914-20:43:54_7.wav",
-    "20090916-0900-PLENARY-4_20090916-10:55:02_12.wav",
-  ];
-
-  for (var i = 0; i < filenames.length; i++) {
-    generateExampleRow(table.rows[1 + i], base_dir, dirs, filenames[i], 0);
-  }
-}
-
 generateLongFormTable('longform-table');
-// generateCVSS('cvss-table');
-// generateVoxPopuli('voxpopuli-table');
+// generateShortFormTable('shortform-table');
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
 $(document).ready(function () {
