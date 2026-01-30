@@ -210,7 +210,7 @@ $(document).ready(function () {
                     },
                     {
                         waveColor: '#ffab40ff',
-                        progressColor: '#2A0908',
+                        progressColor: '#808080',
                     }
                 ],
                 barWidth: 2,
