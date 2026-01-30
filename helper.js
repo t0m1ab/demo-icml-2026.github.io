@@ -242,7 +242,7 @@ $(document).ready(function () {
                 ],
                 barWidth: 2,
                 height: 55,
-                width: 500,
+                width: 700,
             });
 
             $(`#play-pause-${i}-${j}`).click(() => {
