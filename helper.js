@@ -4,37 +4,36 @@ function createAudioHTML(path) {
       ' type="audio/wav">Your browser does not support the audio element.</audio>';
 }
 
-function generateExampleRow(table_row, base_dir, lang, dirs, filename) {
+function generateExampleRow(table_row, base_dir, lang, dirs, filename, row_idx, n_files_per_lang) {
   const langFlags = {'fr': '🇫🇷', 'es': '🇪🇸', 'pt': '🇵🇹', 'de': '🇩🇪'};
+  const langNames = {'fr': 'French', 'es': 'Spanish', 'pt': 'Portuguese', 'de': 'German'};
 
-  // Put the flag in the first column
-  table_row.cells[0].innerHTML = `
-    <div style="display: flex; align-items: center; justify-content: center; font-size: 2em;">
-      ${langFlags[lang] || ''}
-    </div>
-  `;
+  // Put the flag and full language name in the first column
+  if (row_idx % n_files_per_lang === 0) {
+    table_row.cells[0].innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em">
+        <span style="font-size: 1em;">${langNames[lang] || lang}</span>
+        <span style="font-size: 2em;">${langFlags[lang] || ''}</span>
+      </div>
+    `;
+    table_row.cells[0].setAttribute('rowspan', n_files_per_lang);
+    table_row.cells[0].style.verticalAlign = "middle";
+    // Remove the first cell from the next row because of row span
+    let nextRow = table_row.parentElement.rows[row_idx + 1];
+    console.log("nextRow.length", nextRow)
+    if (nextRow) {
+      nextRow.deleteCell(0);
+    }
+  }
 
-  let col_offset = 1;
+  // because of rowspan, odd row indexes have no source language cell
+  let col_offset = (row_idx % n_files_per_lang === 0) ? 1 : 0;
 
   for (var col_idx = 0; col_idx < dirs.length; col_idx++) {
-
-    console.log("col_idx:", col_idx);
-    console.log("Cells in this row:", table_row.cells);
-    console.log("Number of cells:", table_row.cells.length);
 
     let cell = table_row.cells[col_idx + col_offset];
     let p = base_dir + '/' + lang + '/' + dirs[col_idx] + '/' + filename;
 
-    // if (col_idx === 0) {
-    //   const flag = langFlags[lang] || '';
-    //   cell.innerHTML = `
-    //     <div style="display: flex; align-items: center; gap: 8px;">
-    //       <strong style="white-space: nowrap;">
-    //         <span style="font-size: 2em; line-height: 1;">${flag}</span>
-    //       </strong>
-    //     </div>
-    //   `;
-    // }
     let container = cell.querySelector('div') || cell;
 
     if (p.endsWith('txt')) {
@@ -47,13 +46,18 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename) {
       req.open('GET', p);
       req.send(null);
     } else {
-      container.innerHTML += createAudioHTML(p);
+      // container.innerHTML += createAudioHTML(p);
+      container.innerHTML += `
+        <div style="display: flex; justify-content: center; align-items: center;">
+          ${createAudioHTML(p)}
+        </div>
+      `;
     }
   }
 }
 
 function generateShortFormTable(tableId) {
-  let table = document.getElementById(tableId);
+  let tbody = document.getElementById(tableId).querySelector('tbody');
   let base_dir = 'data/audio_ntrex_4L'
   let langs = ['fr', 'es', 'pt', 'de'];
   let fnames_per_lang = {
@@ -69,14 +73,14 @@ function generateShortFormTable(tableId) {
     let lang = langs[lang_idx];
     let fnames = fnames_per_lang[lang];
     for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
-      let row_idx = n_files_per_lang * lang_idx + sample_idx + 1
-      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx]);
+      let row_idx = n_files_per_lang * lang_idx + sample_idx
+      generateExampleRow(tbody.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx], row_idx, n_files_per_lang);
     }
   }
 }
 
 function generateLongFormTable(tableId) {
-  let table = document.getElementById(tableId);
+  let tbody = document.getElementById(tableId).querySelector('tbody');
   let base_dir = 'data/audio_ntrex_4L'
   let langs = ['fr', 'es', 'pt', 'de'];
   let fnames_per_lang = {
@@ -92,8 +96,8 @@ function generateLongFormTable(tableId) {
     let lang = langs[lang_idx];
     let fnames = fnames_per_lang[lang];
     for (var sample_idx = 0; sample_idx < fnames.length; sample_idx++) {
-      let row_idx = n_files_per_lang * lang_idx + sample_idx + 1
-      generateExampleRow(table.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx]);
+      let row_idx = n_files_per_lang * lang_idx + sample_idx
+      generateExampleRow(tbody.rows[row_idx], base_dir, lang, dirs, fnames[sample_idx], row_idx, n_files_per_lang);
     }
   }
 }
@@ -141,7 +145,8 @@ $(document).ready(function () {
     const thead = $('<thead>');
     const headerRow = $('<tr>');
 
-    headerRow.append($('<th>').text('Source language').css({'white-space': 'nowrap'}));
+    headerRow.append($('<th>').text('Source language').css({'white-space': 'nowrap', 'text-align': 'center'}));
+
 
     columns.forEach(header => {
         headerRow.append($('<th style="text-align: center">').text(header));
@@ -166,7 +171,12 @@ $(document).ready(function () {
                     'white-space': 'nowrap',
                     'vertical-align': 'middle'
                 })
-                .html(`<span style="font-size: 4em; line-height:1;">${flag}</span>`)
+                .html(
+                  `<div style="display: flex; align-items: center; justify-content: center; gap: 0.5em">
+                    <span style="font-size: 1em;">${langName}</span>
+                    <span style="font-size: 2em;">${flag}</span>
+                  </div>`
+                )
         );
 
         files.forEach((file, j) => {
