@@ -214,7 +214,7 @@ $(document).ready(function () {
                 ],
                 barWidth: 2,
                 height: 55,
-                width: 670,
+                width: 650,
                 normalize: true,
             });
 
