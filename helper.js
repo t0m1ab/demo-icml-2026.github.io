@@ -84,8 +84,8 @@ function generateSamplesTable(tableId, base_dir, fnames_per_lang, langs) {
   }
 }
 
-generateShortFormTable('shortform-table', 'data/europarl-st', shortformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
-generateShortFormTable('longform-table', 'data/audio_ntrex_4L', longformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
+generateSamplesTable('shortform-table', 'data/europarl-st', shortformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
+generateSamplesTable('longform-table', 'data/audio_ntrex_4L', longformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
 $(document).ready(function () {
