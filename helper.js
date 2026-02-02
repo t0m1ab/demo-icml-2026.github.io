@@ -72,7 +72,7 @@ function generateExampleRow(table_row, base_dir, lang, dirs, filename, row_idx, 
 
 function generateSamplesTable(tableId, base_dir, fnames_per_lang, langs) {
   let tbody = document.getElementById(tableId).querySelector('tbody');
-  let n_files_per_lang = fnames_per_lang[langs[0]].length;
+  let n_files_per_lang = fnames_per_lang[langs[0]].length;  // all langs must have the same number of samples
   let dirs = ['source', 'hibiki-zero', 'seamless'];
   for (var lang_idx = 0; lang_idx < langs.length; lang_idx++) {
     let lang = langs[lang_idx];
@@ -86,6 +86,7 @@ function generateSamplesTable(tableId, base_dir, fnames_per_lang, langs) {
 
 generateSamplesTable('shortform-table', 'data/europarl-st', shortformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
 generateSamplesTable('longform-table', 'data/audio_ntrex_4L', longformFilenamesPerLang, ['fr', 'es', 'pt', 'de'])
+generateSamplesTable('shortform-table-it', 'data/europarl-st', shortformFilenamesPerLang, ['it'])
 
 // Borrowed from https://nu-dialogue.github.io/j-moshi/
 $(document).ready(function () {
